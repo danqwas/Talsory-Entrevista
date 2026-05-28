@@ -1,38 +1,39 @@
+#Usar si se va  a trabajar en local con Docker Compose. Para despliegue en Render, usar render.yaml
 services:
   go-api:
-    image: danqwas/matrix-go-api:latestdanqwas/matrix-go-api:latest
+    build: ./go-api
     ports:
       - "3000:3000"
     environment:
-      - PORT=3000
       - NODE_API_URL=http://node-api:4000/api/statistics
-      - JWT_SECRET=MiClaveSecretaSuperSegura123!
-      - FRONTEND_URL=http://localhost:5173
+      - PORT=3000
+    env_file:
+      - ./go-api/.env
     depends_on:
       - node-api
     networks:
       - matrix-network
-    restart: always
 
   node-api:
-    image: danqwas/matrix-node-api:latest
+    build: ./node-api
     environment:
       - PORT=4000
-      - NODE_ENV=production
-      - JWT_SECRET=MiClaveSecretaSuperSegura123!
     networks:
       - matrix-network
-    restart: always
+    env_file:
+      - ./node-api/.env
 
   frontend:
-    image: danqwas/matrix-frontend:latest
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=http://localhost:3000/api
     ports:
       - "5173:80"
     depends_on:
       - go-api
     networks:
       - matrix-network
-    restart: always
 
 networks:
   matrix-network:

@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: node-api
+    runtime: docker
+    dockerContext: ./node-api
+    dockerfilePath: ./node-api/Dockerfile
+    envVars:
+      - key: PORT
+        value: 4000
+
+  - type: web
+    name: go-api
+    runtime: docker
+    dockerContext: ./go-api
+    dockerfilePath: ./go-api/Dockerfile
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NODE_API_URL
+        value: http://node-api:4000/api/statistics
+
+  # 3. Servicio Frontend (Vite)
+  - type: web
+    name: frontend
+    runtime: docker
+    dockerContext: ./frontend
+    dockerfilePath: ./frontend/Dockerfile
+    envVars:
+      - key: VITE_API_URL
+        value: https://onrender.com

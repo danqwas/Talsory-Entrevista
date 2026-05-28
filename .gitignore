@@ -1,0 +1,44 @@
+# --- Node.js / Express / Vite ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Directorios de producción / compilación
+dist/
+build/
+.cache/
+
+# --- Go / Golang ---
+# Binarios y archivos compilados
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Directorios de compilación y herramientas de Go
+bin/
+vendor/
+
+# --- Configuración y Variables de Entorno ---
+.env
+.env.local
+.env.*.local
+.env.production
+
+# --- Editores e IDEs ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# --- Sistema Operativo ---
+.DS_Store
+Thumbs.db

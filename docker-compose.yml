@@ -1,0 +1,39 @@
+services:
+  go-api:
+    build: ./go-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_API_URL=http://node-api:4000/api/statistics
+      - PORT=3000
+    env_file:
+      - ./go-api/.env
+    depends_on:
+      - node-api
+    networks:
+      - matrix-network
+
+  node-api:
+    build: ./node-api
+    environment:
+      - PORT=4000
+    networks:
+      - matrix-network
+    env_file:
+      - ./node-api/.env
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=http://localhost:3000/api
+    ports:
+      - "5173:80"
+    depends_on:
+      - go-api
+    networks:
+      - matrix-network
+
+networks:
+  matrix-network:
+    driver: bridge
